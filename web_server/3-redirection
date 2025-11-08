@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# 3-redirection
+# This script configures Nginx to redirect /redirect_me to another page (301)
+
+# Exit on any error
+set -e
+
+# Install Nginx if not already installed
+sudo apt-get update -y
+sudo apt-get install -y nginx
+
+# Define the file path
+NGINX_CONF="/etc/nginx/sites-available/default"
+
+# Use sed to replace the line containing 'listen 80 default_server;' with multiple lines including the redirect
+sudo sed -i 's@listen 80 default_server;@listen 80 default_server;\n\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;@' "$NGINX_CONF"
+
+# Restart Nginx to apply changes
+sudo systemctl restart nginx
