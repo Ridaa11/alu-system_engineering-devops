@@ -3,14 +3,14 @@
 
 set -e
 
-# Update package lists and install Nginx
+# Install Nginx
 apt-get update -y
 apt-get install -y nginx
 
 # Create the custom 404 page
 echo "Ceci n'est pas une page" > /var/www/html/404.html
 
-# Overwrite default Nginx site configuration to use the custom 404 page
+# Configure Nginx to use the custom 404 page
 cat > /etc/nginx/sites-available/default << 'EOF'
 server {
         listen 80 default_server;
@@ -30,10 +30,10 @@ server {
 }
 EOF
 
-# Test Nginx configuration
+# Test configuration
 nginx -t
 
-# Reload or start Nginx (works in systemd and non-systemd environments)
+# Reload or start Nginx
 if command -v systemctl >/dev/null 2>&1; then
     systemctl restart nginx
 else
