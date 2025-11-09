@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
-# Script to configure Nginx with a custom 404 page that contains "Ceci n'est pas une page"
+# Configures an Ubuntu server with Nginx to serve a custom 404 page containing "Ceci n'est pas une page"
 
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-# Install Nginx if not already installed
-sudo apt-get update -y
-sudo apt-get install -y nginx
+# Update package lists and install Nginx
+apt-get update -y
+apt-get install -y nginx
 
-# Create the custom 404 page
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
+# Create the custom 404 page with the required text
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 
 # Update Nginx default configuration to use the custom 404 page
-sudo sed -i '/error_page 404/d' /etc/nginx/sites-available/default
-sudo sed -i '/server_name _;/a \\\n\t# Custom 404 page\n\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}' /etc/nginx/sites-available/default
+sed -i '/error_page 404/d' /etc/nginx/sites-available/default
+sed -i '/server_name _;/a \\n\t# Custom 404 page\n\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}' /etc/nginx/sites-available/default
 
-# Restart Nginx to apply changes
-sudo systemctl restart nginx
+# Restart Nginx to apply configuration changes
+systemctl restart nginx
 
