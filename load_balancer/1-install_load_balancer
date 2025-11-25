@@ -1,4 +1,5 @@
-nstall and configure HAProxy on lb-01 server to load balance between web-01 and web-02
+#!/usr/bin/env bash
+install and configure HAProxy on lb-01 server to load balance between web-01 and web-02
 
 # Update system and install HAProxy
 apt-get -y update
